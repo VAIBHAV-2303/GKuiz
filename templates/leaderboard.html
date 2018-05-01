@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leadeboard</title>
+	<meta charset="utf-8" http-equiv="refresh" content="15">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+		<a class="navbar-brand" href="/"><span class="fa fa-home"></span> GKuiz</a>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" href="/profile/{{ currentuser }}"><span class="fa fa-user"></span> My Profile</a>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fa fa-th-list"></span> Categories
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a href="/quiz/Literature" class="dropdown-item"><span class="fa fa-book"></span> Literature</a>
+					<a href="/quiz/History" class="dropdown-item"><span class="fa fa-chess-knight-alt"></span> History</a>
+					<a href="/quiz/CurrentAffairs" class="dropdown-item"><span class="fa fa-bullhorn"></span> Current Affairs</a>
+					<a href="/quiz/Movies" class="dropdown-item"><span class="fa fa-film"></span> Movies</a>
+					<a href="/quiz/Science" class="dropdown-item"><span class="fa fa-tint"></span> Science</a>
+					<a href="/quiz/Sports" class="dropdown-item"><span class="fa fa-flag"></span> Sports</a>
+				</div>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="http://127.0.0.1:5000/leaderboard/globalrank"><span class="fa fa-sort-amount-desc"></span> Leaderboards</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/user/sign-out"><span class="fa fa-external-link"></span> Log-Out</a>
+			</li>
+		</ul>
+	</nav> 
+	<div class="jumbotron">
+		<h1>Compare yourself with others in real time</h1>
+	</div>
+	<div>
+		<h2>{{ cat }}</h2>
+	</div>
+	<div class="container table-responsive-sm table-responsive-lg table-responsive-xl table-responsive-md">
+		<table class="table">
+			<thead class="thead-dark" style="text-align: center;">
+				<tr>
+					<th colspan="3">
+						Category &nbsp;&nbsp;:&nbsp;&nbsp;
+						<select id="categories" style="background: white;">
+							<option value="" disabled selected>Select your option</option>
+							<option>Global</option>
+							<option>Literature</option>
+							<option>Sports</option>
+							<option>Movies</option>
+							<option>Current affairs</option>
+							<option>History</option>
+							<option>Science</option>
+						</select>&nbsp;&nbsp;
+						<button type="button" class="btn btn-dark" onclick="myfn()">Apply</button>
+					</th>
+				</tr>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">User</th>
+					<th scope="col">Score</th>
+				</tr>
+			</thead>
+			<tbody style="color: white; font-weight: bold; text-align: center;">
+				{% set i = 1 %}
+				{% for j in stuple %}
+				<tr>
+					<th scope="row" class="bg-primary">{{ i }}</th>
+					<td class="bg-danger"><a href="/profile/{{ j[0] }}" style="color: white;">{{ j[0] }}</a></td>
+					<td class="bg-danger">{{ j[1] }}</td>
+				</tr>
+				{% set i=i+1 %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+	<div style="background-color: black;">
+		<p style="text-align: center; color: white;">&copy; 2018 GKuiz. All rights reserved.</p>
+	</div><br/>
+	<script type="text/javascript">
+		function myfn(){
+			var category = $('#categories').find(":selected").text().replace(/\s/g,'');
+			if (category == 'Global') category = 'globalrank';
+			window.location = `http://127.0.0.1:5000/leaderboard/${category}`;
+		}
+	</script>
+</body>
+</html>

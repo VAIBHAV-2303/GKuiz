@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome</title>
+	<meta charset="utf-8">
+	<link rel=stylesheet type=text/css href="{{url_for('static', filename='style.css')}}">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+	#chart_wrap {
+		position: relative;
+		padding-bottom: 50%;
+		left: -70px;
+		width: 70%;
+		height: 70%;
+	}
+	#piechart {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width:70%;
+		height:70%;
+	}
+</style>
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span> GKuiz</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="/profile/{{ currentuser }}"><span class="glyphicon glyphicon-user"></span> My Profile</a></li>
+				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-th-list"></span> Categories<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/quiz/Literature"><span class="glyphicon glyphicon-book"></span> Literature</a></li>
+						<li><a href="/quiz/History"><span class="glyphicon glyphicon-knight"></span> History</a></li>
+						<li><a href="/quiz/CurrentAffairs"><span class="glyphicon glyphicon-bullhorn"></span> Current Affairs</a></li>
+						<li><a href="/quiz/Movies"><span class="glyphicon glyphicon-film"></span> Movies</a></li>
+						<li><a href="/quiz/Science"><span class="glyphicon glyphicon-tint"></span> Science</a></li>
+						<li><a href="/quiz/Sports"><span class="glyphicon glyphicon-flag"></span> Sports</a></li>
+					</ul>
+				</li>
+				<li><a href="http://127.0.0.1:5000/leaderboard/globalrank"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Leaderboards</a></li>
+				<li><a href="/user/sign-out"><span class="glyphicon glyphicon-new-window"></span> Log-Out</a></li>
+			</ul>
+		</div>
+	</nav>
+	{% if username == currentuser %}
+	<a class="btn btn-primary" role="button" href="/edit_profile"><span class="glyphicon glyphicon-wrench"></span> Edit Profile</a>
+	{% endif %}
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-md-12 col-sm-12">
+				<div class="well well-sm">
+					<div class="row">
+						<div class="col-sm-6 col-md-4">
+							<img src="./../static/img/{{ ide }}.jpg" alt="Add one" class="img-rounded img-responsive" />
+						</div>
+						<div class="col-sm-6 col-md-8">
+							<h4>{{ username }}</h4>
+							<h4><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;{{ mail }}</h4>
+							<p>
+								<b>Global Rank: </b> {{ rank }} <br/>
+								<b>Date of Birth: </b>{{ dob }} <br/>
+								<b>Score: </b> {{ score }} <br/>
+								<b>Bio: </b>{{ bio }} <br/>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id = "chart_wrap">
+		<div id="piechart">No participation</div>
+	</div>
+	<div class="jumbotron" style="background-color: black;">
+		<p style="text-align: center; color: white;">&copy; 2018 GKuiz. All rights reserved.</p>
+	</div>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+		function drawChart() {
+
+			var piedata = google.visualization.arrayToDataTable([
+				['Category', 'Score'],
+				['Sports',     {{ sports|safe }}],
+				['Movies',      {{ movies|safe }}],
+				['Literature',  {{ literature|safe }}],
+				['Science', {{ science|safe }}],
+				['History', {{ history|safe }}],
+				['Current Affairs', {{ currentaffairs|safe }}]
+				]);
+			var options = {
+				title: 'Performance'
+			};
+			if( {{ sports|safe }} + {{ movies|safe }} + {{ literature|safe }} + {{ science|safe }} + {{ history|safe }} + {{ currentaffairs|safe }} != 0){
+				var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+				chart.draw(piedata, options);
+			}
+			else{
+				chart = document.getElementById('piechart');
+				chart.innerHTML = "<b>You haven't really done much!</b>" 
+			}
+		}
+
+		$(window).on("throttledresize", function (event) {
+			var options = {
+				width: '100%',
+				height: '100%'
+			};
+
+			var data = google.visualization.arrayToDataTable([]);
+			drawChart(data, options);
+		});
+		// drawChart();
+	</script>
+</body>
+</html>

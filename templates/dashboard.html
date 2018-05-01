@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome</title>
+	<meta charset="utf-8">
+	<link rel=stylesheet type=text/css href="{{url_for('static', filename='style.css')}}">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-- Materialise CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span> GKuiz</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="/profile/{{ currentuser }}"><span class="glyphicon glyphicon-user"></span> My Profile</a></li>
+				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-th-list"></span> Categories<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/quiz/Literature"><span class="glyphicon glyphicon-book"></span> Literature</a></li>
+						<li><a href="/quiz/History"><span class="glyphicon glyphicon-knight"></span> History</a></li>
+						<li><a href="/quiz/CurrentAffairs"><span class="glyphicon glyphicon-bullhorn"></span> Current Affairs</a></li>
+						<li><a href="/quiz/Movies"><span class="glyphicon glyphicon-film"></span> Movies</a></li>
+						<li><a href="/quiz/Science"><span class="glyphicon glyphicon-tint"></span> Science</a></li>
+						<li><a href="/quiz/Sports"><span class="glyphicon glyphicon-flag"></span> Sports</a></li>
+					</ul>
+				</li>
+				<li><a href="http://127.0.0.1:5000/leaderboard/globalrank"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Leaderboards</a></li>
+				<li><a href="/user/sign-out"><span class="glyphicon glyphicon-new-window"></span> Log-Out</a></li>
+			</ul>
+		</div>
+	</nav>
+	{% if currentuser == 'Admin' %}
+	<a href="/admin" class="btn btn-info btn-lg">
+		<span class="glyphicon glyphicon-lock"></span> Master Access
+	</a>
+	{% endif %}
+	<a href="/resume" class="btn btn-info btn-lg">
+		<span class="glyphicon glyphicon-play"></span> Resume your previous quiz
+	</a>
+	<br/>
+	<div class="row">
+
+		<div class="col s12 m6">
+			<div class="card">
+				<div class="card-image">
+					<img src="../static/Literature.jpeg" alt="Literature">
+					<span class="card-title"><b>L I T E R A T U R E</b></span>
+					<a class="btn-floating halfway-fab" href="/quiz/Literature"><i class="material-icons" style="background-color: orange;">add</i></a>
+				</div>
+				<div class="card-content">
+					<p><i>"Everyone has inside of him a piece of good news. The good news is that you don't know how great you can be! How much you can love! What you can accomplish! And what your potential is!"</i></p>
+					<p class="pull-right">- Anne Frank</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col s12 m6">
+			<div class="card">
+				<div class="card-image">
+					<img src="../static/History.jpeg" alt="History">
+					<span class="card-title"><b>H I S T O R Y</b></span>
+					<a class="btn-floating halfway-fab" href="/quiz/History"><i class="material-icons" style="background-color: brown">add</i></a>
+				</div>
+				<div class="card-content">
+					<p><i>"History is man's best guess as to what the past would look like if everything had happened in chronological order."</i></p>
+					<p class="pull-right">- Robert Brault</p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="row">
+
+		<div class="col s12 m6">
+			<div class="card">
+				<div class="card-image">
+					<img src="../static/Currentaffairs.jpeg" alt="CurrentAffairs">
+					<span class="card-title"><b>C U R R E N T &nbsp;&nbsp;A F F A I R S</b></span>
+					<a class="btn-floating halfway-fab" href="/quiz/CurrentAffairs"><i class="material-icons" style="background-color: #b36200;">add</i></a>
+				</div>
+				<div class="card-content">
+					<p><i>"In matters of style, swim with the current; in matters of principle, stand like a rock."</i></p>
+					<p class="pull-right">- Thomas Jefferson</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col s12 m6">
+			<div class="card">
+				<div class="card-image">
+					<img src="../static/Movies.jpeg" alt="Movies">
+					<span class="card-title"><b>M O V I E S</b></span>
+					<a class="btn-floating halfway-fab" href="/quiz/Movies"><i class="material-icons" style="background-color: #99cc00;">add</i></a>
+				</div>
+				<div class="card-content">
+					<p><i>"Get busy livin', or get busy dyin'."</i></p>
+					<p class="pull-right">- from <i>The Shawshank Redemption</i></p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="row">
+
+		<div class="col s12 m6">
+			<div class="card">
+				<div class="card-image">
+					<img src="../static/Science.jpeg" alt="Science">
+					<span class="card-title"><b>S C I E N C E</b></span>
+					<a class="btn-floating halfway-fab" href="/quiz/Science"><i class="material-icons" style="background-color: purple;">add</i></a>
+				</div>
+				<div class="card-content">
+					<p><i>"The difference between science and the arts is not that they are different sides of the same coin even, or even different parts of the same continuum, but rather, they are manifestations of the same thing. The arts and sciences are avatars of human creativity".</i></p>
+					<p class="pull-right">- Mae Jeminson</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col s12 m6">
+			<div class="card">
+				<div class="card-image">
+					<img src="../static/Sports.jpeg" alt="Sports">
+					<span class="card-title"><b>S P O R T S</b></span>
+					<a class="btn-floating halfway-fab" href="/quiz/Sports"><i class="material-icons" style="background-color: #ff1a1a;">add</i></a>
+				</div>
+				<div class="card-content">
+					<p><i>"I've missed more than 9000 shots in my career. I've lost almost 300 games. 26 times, I've been trusted to take the game winning shot and missed. I've failed over and over and over again in my life. And that is why I succeed."</i></p>
+					<p class="pull-right">- Michael Jordan</p>
+				</div>
+			</div>
+		</div>      
+
+	</div><br/><br/>
+	<div style="background-color: black;">
+		<p style="text-align: center; color: white;">&copy; 2018 GKuiz. All rights reserved.</p>
+	</div><br/>
+</body>
+</html>

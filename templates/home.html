@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>GKuiz</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel=stylesheet type=text/css href="{{url_for('static', filename='style.css')}}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div id='logo' class="navbar-header">
+       <div id='logo'>
+        <span id='GK'><b>GK</b></span><span id='uiz'><b>uiz</b></span>
+        <span id='tagline'><i>... an online quiz platform</i></span>
+      </div> 
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li style="padding-top: 1vw;"><a href='/user/register'><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li style="padding-top: 1vw;"><a href='/user/sign-in'><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  
+  <div class="jumbotron" id="readme">
+    <p><i>This project was made by Preet Thakkar and Vaibhav Garg as an assignment for ITWS-II course.</i></p>
+    <h3 class="subhead">Disclaimer</h3>
+    <p><i>This project was made solely for the purpose of an assignment and the content used in this app are in no way owned or distributed by us.</i></p>
+    <h3 class="subhead">What is this ?</h3>
+    <p><i>This is an online quiz portal that is capable of making a user database and hosting online question rounds whose results are then used to generate real time leaderboards. Questions and other internal data can only be updated by the admins.</i></p>
+    <h3 class="subhead">Functionality</h3>
+    <ul>
+      <li><i>Different categories of questions</i></li>
+      <li><i>Easy sign-up and login</i></li>
+      <li><i>Real-time results</i></li>
+    </ul>
+  </div>    
+
+</div>
+
+</body>
+</html>

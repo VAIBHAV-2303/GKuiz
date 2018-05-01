@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Edit</title>
+	<meta charset="utf-8">
+	<link rel=stylesheet type=text/css href="{{url_for('static', filename='style.css')}}">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span> GKuiz</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="/profile/{{ currentuser }}"><span class="glyphicon glyphicon-user"></span> My Profile</a></li>
+				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-th-list"></span> Categories<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/quiz/Literature"><span class="glyphicon glyphicon-book"></span> Literature</a></li>
+						<li><a href="/quiz/History"><span class="glyphicon glyphicon-knight"></span> History</a></li>
+						<li><a href="/quiz/CurrentAffairs"><span class="glyphicon glyphicon-bullhorn"></span> Current Affairs</a></li>
+						<li><a href="/quiz/Movies"><span class="glyphicon glyphicon-film"></span> Movies</a></li>
+						<li><a href="/quiz/Science"><span class="glyphicon glyphicon-tint"></span> Science</a></li>
+						<li><a href="/quiz/Sports"><span class="glyphicon glyphicon-flag"></span> Sports</a></li>
+					</ul>
+				</li>
+				<li><a href="http://127.0.0.1:5000/leaderboard/globalrank"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Leaderboards</a></li>
+				<li><a href="/user/sign-out"><span class="glyphicon glyphicon-new-window"></span> Log-Out</a></li>
+			</ul>
+		</div>
+	</nav>
+	<form action="/submit_profile" method="POST">
+		<div class="container">
+			<label for="exampleFormControlTextarea1"><h2>Update your profile</h2></label>
+			<div class="well"> 
+				<div class="form-group">
+					<label>Date of Birth</label>
+					<input class="form-control" type="text" name="newdob" placeholder="DD-MM-YYYY">
+				</div>
+			</div>
+			<div>
+				<a href="/user/profile">Change Username or password</a><br/>
+			</div>
+			<div class="form-group">
+				<label for="exampleFormControlTextarea1">Add a bio</label>
+				<textarea class="form-control" id="exampleFormControlTextarea1" name="newbio" rows="3" placeholder="{{ bio }}"></textarea>
+			</div>
+			<input type="submit">
+		</div>
+	</form>
+	<form class="container" method=POST enctype=multipart/form-data action="{{ url_for('upload') }}">
+		<label for="exampleFormControlTextarea1">Add a profile picture</label>
+		<input type="file" name="photo"><br/>
+		<input type="submit">
+	</form>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<div class="jumbotron" style="background-color: black;">
+		<p style="text-align: center; color: white;">&copy; 2018 GKuiz. All rights reserved.</p>
+	</div>
+</body>
+</html>

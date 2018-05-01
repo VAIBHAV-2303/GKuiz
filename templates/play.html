@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Play</title>
+	<meta charset="utf-8">
+	<link rel=stylesheet type=text/css href="{{url_for('static', filename='style.css')}}">
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span> GKuiz</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="/profile/{{ currentuser }}"><span class="glyphicon glyphicon-user"></span> My Profile</a></li>
+				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-th-list"></span> Categories<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/quiz/Literature"><span class="glyphicon glyphicon-book"></span> Literature</a></li>
+						<li><a href="/quiz/History"><span class="glyphicon glyphicon-knight"></span> History</a></li>
+						<li><a href="/quiz/CurrentAffairs"><span class="glyphicon glyphicon-bullhorn"></span> Current Affairs</a></li>
+						<li><a href="/quiz/Movies"><span class="glyphicon glyphicon-film"></span> Movies</a></li>
+						<li><a href="/quiz/Science"><span class="glyphicon glyphicon-tint"></span> Science</a></li>
+						<li><a href="/quiz/Sports"><span class="glyphicon glyphicon-flag"></span> Sports</a></li>
+					</ul>
+				</li>
+				<li><a href="http://127.0.0.1:5000/leaderboard/globalrank"><span class="glyphicon glyphicon-sort-by-attributes-alt"></span> Leaderboards</a></li>
+				<li><a href="/user/sign-out"><span class="glyphicon glyphicon-new-window"></span> Log-Out</a></li>
+			</ul>
+		</div>
+	</nav>
+	{% set j = 0 %}
+	{% for i in array: %}
+	<div class="container">
+		{% if i[11] == "Single" %}
+		<div class="panel panel-primary" id="panel{{ j }}">
+			<div class="panel-heading">
+				Question {{ j + 1 }}
+			</div>
+			<div class="panel-body">
+				<label >{{ i[1] }}</label>
+				<form id="f{{ j }}">
+					<div class="radio">
+						<label><input type="radio" name="selected" id ="f{{ j }}q1"><span id="strike{{ j }}q1">{{ i[2] }}</span></label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="selected" id="f{{ j }}q2"><span id="strike{{ j }}q2">{{ i[3] }}</span></label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="selected" id="f{{ j }}q3"><span id="strike{{ j }}q3">{{ i[4] }}</span></label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="selected" id="f{{ j }}q4"><span id="strike{{ j }}q4">{{ i[5] }}</span></label>
+					</div>
+				</form>
+				<p id="u{{ j }}"></p>
+				<button type="button" class="fifty50" class="btn btn-primary pull-right" onclick="use50({{ j|safe }})">Fifty-50</button>
+				<button type="button" id="b{{ j }}" class="btn btn-primary pull-right" onclick="myfn( {{ j|safe }})">Submit</button>
+			</div>
+		</div>
+		{% endif %}
+		{% if i[11] == "Multiple" %}
+		<div class="panel panel-primary" id="panel{{ j }}">
+			<div class="panel-heading">
+				Question {{ j + 1 }}
+			</div>
+			<div class="panel-body">
+				<label >{{ i[1] }}</label>
+				<div class="container">
+					<form id="f{{ j }}">
+						<div class="checkbox">
+							<label><input type="checkbox" id="f{{ j }}q1">{{ i[2] }}</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" id="f{{ j }}q2">{{ i[3] }}</label>
+						</div>	
+						<div class="checkbox">
+							<label><input type="checkbox" id="f{{ j }}q3">{{ i[4] }}</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" id="f{{ j }}q4">{{ i[5] }}</label>
+						</div>
+					</form>
+				</div>
+				<p id="u{{ j }}"></p>
+				<button type="button" class="onecorrect" onclick="use1c({{ j|safe }})">Onecorrect</button>
+				<button type="button" id="b{{ j }}" class="btn pull-right btn-primary" onclick="myfn({{ j|safe }})">Submit</button>
+			</div>
+		</div>
+		{% endif %}
+		{% set j =  j+1  %}
+	</div>
+	<br/>
+	{% endfor %}
+	<div style="position: fixed; bottom: 18vw; right: 0vw;">
+		<button type="button" class="btn btn-secondary btn-lg" onclick="sendtoserver()"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+	</div>
+	<div>
+		<button type="button" class="btn btn-secondary btn-lg" onclick="updatescore()"><span class="glyphicon glyphicon-send"></span> Final Submit</button>
+	</div>
+	<div id="piechart" style="width: 900px; height: 500px;"></div>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript"> 
+		var array = {{ array|safe }};
+		var score = 0;
+		var numofinc = 0;
+		data = {};
+		data['q50'] = 100;
+		data['category'] = '{{ category|safe }}';
+		data['maincategory'] = '{{ maincategory|safe }}'
+		data['fifty50'] = false;
+		data['onecorrect'] = false;
+		for(i=0;i<10;i++){
+			data['Q' + i.toString()]=0;
+			for(j=0;j<4;j++){
+				data['Q' + i.toString() + 'A' + j.toString()]=0;
+			}
+		}
+
+		function use1c(j){
+			data['onecorrect'] = true;
+			btnarr = document.getElementsByClassName('onecorrect');
+			for(var i=0;i<btnarr.length;i++){
+				btnarr[i].disabled = true;
+			}
+			for(var i=1;i<=4;i++){
+				if(array[j][5+i]==1){
+					document.getElementById('f' + j.toString() + 'q' + i.toString()).checked = true;
+					data['Q' + j.toString() + 'A' + (i-1).toString()] = 1;
+					break;
+				}
+			}
+		}
+
+		function use50(j){
+			data['q50'] = j;
+			data['fifty50'] = true;
+			btnarr = document.getElementsByClassName('fifty50');
+			for(var i=0;i<btnarr.length;i++){
+				btnarr[i].disabled = true;
+			}
+			count = 0;
+			for(var i=1;i<=4;i++){
+				if(array[j][5+i]==0 && count<2){
+					document.getElementById('f' + j.toString() + 'q' + i.toString()).disabled = true;
+					document.getElementById('strike'+ j.toString() + 'q' + i.toString()).style.textDecoration='line-through';
+					count++;
+				}
+			}	
+		}
+
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+		function drawChart() {
+
+			var piedata = google.visualization.arrayToDataTable([
+				['Status', 'Number'],
+				['Correct',     score/10],
+				['Incorrect',      numofinc],
+				['Not Attempted',  10-(score/10)-numofinc],
+				]);
+			var options = {
+				title: 'Performance'
+			};
+			var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+			chart.draw(piedata, options);
+		}
+
+
+		function updatescore(){
+			drawChart();
+			scoredata = {}
+			scoredata['score'] = score
+			scoredata['maincategory'] = '{{ maincategory|safe }}'
+			scoredata['subcategory'] = '{{ category|safe }}'
+			$.post("/updatescore", JSON.stringify(scoredata), function(){
+
+			});
+		}
+		function myfn(j){
+			data['Q' + j.toString()]=1;
+			document.getElementById('b' + j.toString()).disabled=true;
+			var flag=1;
+			for(var k=1;k<=4;k++){
+				option=document.getElementById('f' + j.toString() + "q" + k.toString());
+				checked = option.checked
+				if(checked==true){
+					data['Q' + j.toString() + 'A' + (k-1).toString()]=1;
+				}
+				ans=array[j][5+k];
+				if(ans!=checked){
+					flag=0;
+				}
+			}
+			ptag = document.getElementById('u'+j.toString());
+			if(flag==1){
+				ptag.style.color="green";
+				ptag.innerHTML="Correct";
+				score+=10;
+				document.getElementById("panel" + j.toString()).classList.remove('panel-primary');
+				document.getElementById("panel" + j.toString()).classList.add('panel-success');
+			}
+			else{
+				ptag.style.color="red";
+				ptag.innerHTML="Incorrect";
+				numofinc++;
+				document.getElementById("panel" + j.toString()).classList.remove('panel-primary');
+				document.getElementById("panel" + j.toString()).classList.add('panel-danger');
+			}
+		}
+		function sendtoserver() {
+			// console.log(data)
+			data['numofinc'] = numofinc;
+			data['partialscore'] = score;
+			$.post("/recievefromjs", JSON.stringify(data), function(){
+
+			});
+			// event.preventDefault();
+		}
+	</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<div class="jumbotron" style="background-color: black;">
+		<p style="text-align: center; color: white;">&copy; 2018 GKuiz. All rights reserved.</p>
+	</div>
+</body>
+</html>
