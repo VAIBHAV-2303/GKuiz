@@ -23,7 +23,7 @@ This is an online quiz portal that is capable of making a user database and host
 
 #Prerequisites
 
-... GKuiz was developed primarily using Python-Flask. To run GKuiz on your local machine your machine should have the following installed:-
+...GKuiz was developed primarily using Python-Flask. To run GKuiz on your local machine your machine should have the following installed:-
 
 ..* [Python v3.5](https://docs.python.org/3/)
 ..* [Flask v0.12](http://flask.pocoo.org/docs/0.12/)
@@ -35,6 +35,10 @@ This is an online quiz portal that is capable of making a user database and host
 ..* [Jinja v2.10](http://jinja.pocoo.org/docs/2.10/)
 
 All the above mentioned dependencies are easily available and can be installed using pip3 in a python environment. 
+
+Current Admin details->
+	Username-> Admin
+	Password-> Tester4
 
 #Testing
 
