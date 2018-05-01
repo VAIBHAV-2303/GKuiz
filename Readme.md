@@ -1,7 +1,5 @@
 #GKUIZ
 
-![Our Logo](/home/vaibhav/Assignments/ITWS-II/4/GKuiz/static/index.jpeg)
-
 This project was made by Preet Thakkar and Vaibhav Garg as an assignment for ITWS-II course.
 
 ##Disclaimer
