@@ -32,8 +32,9 @@
 			</ul>
 		</div>
 	</nav>
-	{% set j = 0 %}
+	{% set l = [0] %}
 	{% for i in array: %}
+	{% set j = l[0] %}
 	<div class="container">
 		{% if i[11] == "Single" %}
 		<div class="panel panel-primary" id="panel{{ j }}">
@@ -94,6 +95,7 @@
 		{% set j =  j+1  %}
 	</div>
 	<br/>
+	{% if l.append(l.pop() + 1) %}{% endif %}
 	{% endfor %}
 	<div style="position: fixed; bottom: 18vw; right: 0vw;">
 		<button type="button" class="btn btn-secondary btn-lg" onclick="sendtoserver()"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
